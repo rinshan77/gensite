@@ -5,7 +5,7 @@ class TestTextNode(unittest.TestCase):
     def test_eq(self):
         node1 = TextNode("This is a text node", "bold")
         node2 = TextNode("This is a text node", "bold")
-        self.assertEqual(node1, node2)
+        self.assertTrue(node1.__eq__(node2))
 
     def test_not_equal_different_text(self):
         node1 = TextNode("This is a text node", "bold")
@@ -15,7 +15,7 @@ class TestTextNode(unittest.TestCase):
     def test_not_equal(self):
         node1 = TextNode("This is a text node", "bold")
         node2 = TextNode("This is a different text node", "bold")
-        self.assertFalse(node1.__eq__ (node2))
+        self.assertFalse(node1.__eq__(node2))
 
     def test_not_equal_different_text_type(self):
         node1 = TextNode("This is a text node", "bold")
