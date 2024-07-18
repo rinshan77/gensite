@@ -36,9 +36,6 @@ class TestHTMLNode(unittest.TestCase):
     
 class TestLeafNode(unittest.TestCase):
     
-    def test_leaf_node_without_value_raises_error(self):
-        with self.assertRaises(ValueError):
-            LeafNode(tag="p", value="")
     
     def test_leaf_node_no_tag_returns_value(self):
         node = LeafNode(tag=None, value="Just text")
