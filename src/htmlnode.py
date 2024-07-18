@@ -13,6 +13,13 @@ class HTMLNode:
 
     def __repr__(self):
         return f"HTMLNode(tag={self.tag!r}, value={self.value!r}, children={self.children!r}, props={self.props!r})"
+    
+
+    def __eq__(self, other):
+        if not isinstance(other, HTMLNode):
+            return False
+        return (self.tag == other.tag and self.value == other.value and 
+                self.children == other.children and self.props == other.props)
 
 class LeafNode(HTMLNode):
     def __init__(self, tag=None, value=None, props=None):

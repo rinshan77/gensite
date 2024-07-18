@@ -27,15 +27,15 @@ def text_node_to_html_node(text_node):
     }
 
     tag = text_type_map.get(text_node.text_type)
-    
     if tag is None and text_node.text_type != "text":
         raise ValueError("Invalid text type")
-    
+
     if tag == "a":
-        # Assuming text_node.text is a tuple (anchor_text, href)
-        return LeafNode(tag, text_node.text[0], {"href": text_node.text[1]})
+        if text_node.url:
+            return LeafNode(tag, text_node.text, {"href": text_node.url})
+        else:
+            raise ValueError("URL required for link text type")
     elif tag == "img":
-        # Assuming text_node.text is a tuple (src, alt)
-        return LeafNode(tag, "", {"src": text_node.text[0], "alt": text_node.text[1]})
+        return LeafNode(tag, "", {"src": text_node.text, "alt": "Image"})
     else:
         return LeafNode(tag, text_node.text)
