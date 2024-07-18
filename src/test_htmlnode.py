@@ -1,5 +1,5 @@
 import unittest
-from htmlnode import HTMLNode, LeafNode
+from htmlnode import HTMLNode, LeafNode, ParentNode
 
 class TestHTMLNode(unittest.TestCase):
     def test_print(self):
@@ -82,6 +82,49 @@ class TestLeafNode(unittest.TestCase):
         
         expected_html = "Just text"
         self.assertEqual(result, expected_html)
+
+class TestParentNode(unittest.TestCase):
+    
+    def test_to_html(self):
+        node = ParentNode(
+            "p",
+            [
+                LeafNode("b", "Bold text"),
+                LeafNode(None, "Normal text"),
+                LeafNode("i", "italic text"),
+                LeafNode(None, "Normal text"),
+            ],
+        )
+        self.assertEqual(
+            node.to_html(),
+            "<p><b>Bold text</b>Normal text<i>italic text</i>Normal text</p>"
+        )
+
+    def test_invalid_tag(self):
+        with self.assertRaises(ValueError) as cm:
+            ParentNode(None, [LeafNode("b", "Bold text")])
+        self.assertEqual(str(cm.exception), "Needs tag value.")
+
+    def test_no_children(self):
+        with self.assertRaises(ValueError) as cm:
+            ParentNode("p", [])
+        self.assertEqual(str(cm.exception), "Needs children value.")
+
+    def test_nested_nodes(self):
+        nested_node = ParentNode(
+            "div",
+            [
+                ParentNode("p", [
+                    LeafNode("b", "Bold text"),
+                    LeafNode(None, "Normal text"),
+                ]),
+                LeafNode("i", "Italic text"),
+            ]
+        )
+        self.assertEqual(
+            nested_node.to_html(),
+            "<div><p><b>Bold text</b>Normal text</p><i>Italic text</i></div>"
+        )
 
 
 if __name__ == "__main__":
