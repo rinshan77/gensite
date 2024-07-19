@@ -1,7 +1,7 @@
 import unittest
 from blocktypes import markdown_to_html_node
 from htmlnode import HTMLNode
-
+from main import extract_title
 
 class TestMarkdownToHTMLNode(unittest.TestCase):
     def test_heading(self):
@@ -101,6 +101,18 @@ class TestMarkdownToHTMLNode(unittest.TestCase):
         )
         self.assertEqual(html_node, expected)
 
+class TestExtractTitle(unittest.TestCase):
+
+    def test_extract_title_success(self):
+        self.assertEqual(extract_title("# Hello"), "Hello")
+        self.assertEqual(extract_title("#  Hello "), "Hello")
+
+    def test_extract_title_failure(self):
+        with self.assertRaises(Exception):
+            extract_title("## No H1 header in this text")
+
+    def test_extract_title_multiline(self):
+        self.assertEqual(extract_title("## Subtitle\n# Main Title\nSome content"), "Main Title")
 
 if __name__ == "__main__":
     unittest.main()
