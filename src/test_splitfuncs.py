@@ -1,7 +1,7 @@
-import re
 import unittest
-from textnode import TextNode, text_node_to_html_node, extract_markdown_images, extract_markdown_links
-from htmlnode import HTMLNode, LeafNode, ParentNode
+from textnode import TextNode
+from splitfuncs import split_nodes_link, split_nodes_image, split_nodes_delimiter
+from test_htmlnode import HTMLNode, LeafNode, ParentNode
 
 
 class TestSplitNodes(unittest.TestCase):

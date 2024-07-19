@@ -1,6 +1,6 @@
 import re
 import unittest
-from textnode import TextNode, text_node_to_html_node, extract_markdown_images, extract_markdown_links
+from textnode import TextNode, text_node_to_html_node, extract_markdown_images, extract_markdown_links, text_to_textnodes
 from htmlnode import HTMLNode, LeafNode, ParentNode
 
 
