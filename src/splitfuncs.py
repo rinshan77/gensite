@@ -84,3 +84,37 @@ def split_nodes_link(old_nodes):
             new_nodes.append(node)
 
     return new_nodes
+
+def markdown_to_blocks(markdown):
+    # Split the markdown text by double newlines
+    blocks = markdown.split('\n\n')
+    # Strip leading and trailing whitespace from each block
+    blocks = [block.strip() for block in blocks]
+    # Remove any empty blocks
+    blocks = [block for block in blocks if block]
+    return blocks
+
+def block_to_block_type(block):
+    # Check for heading
+    if block.startswith("# ") or any(block.startswith(f"{'#' * i} ") for i in range(1, 7)):
+        return "heading"
+    
+    # Check for code block
+    if block.startswith("```") and block.endswith("```"):
+        return "code"
+    
+    # Check for quote
+    if all(line.startswith("> ") for line in block.split('\n')):
+        return "quote"
+
+    # Check for unordered list
+    if all(line.startswith("* ") or line.startswith("- ") for line in block.split('\n')):
+        return "unordered_list"
+
+    # Check for ordered list
+    lines = block.split('\n')
+    if all(line.split(". ", 1)[0].isdigit() and int(line.split(". ", 1)[0]) == idx + 1 
+           for idx, line in enumerate(lines)):
+        return "ordered_list"
+
+    return "paragraph"

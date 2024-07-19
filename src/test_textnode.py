@@ -173,7 +173,7 @@ class TestTextToTextNodes(unittest.TestCase):
             TextNode(" and a ", "text"),
             TextNode("link", "link", "https://boot.dev"),
         ]
-
+        print(f"HERE ARE THE NODES: {nodes}")
         self.assertEqual(nodes, expected_nodes)
 
 if __name__ == "__main__":
