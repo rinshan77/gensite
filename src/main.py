@@ -148,25 +148,35 @@ def markdown_to_html_node(markdown):
     return HTMLNode(markdown)
 
 
-def main():
-    public_dir = 'public'
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+    for root, _, files in os.walk(dir_path_content):
+        for file in files:
+            if file.endswith('.md'):
+                file_path = os.path.join(root, file)
+                
+                relative_path = os.path.relpath(file_path, dir_path_content)
+                relative_dir = os.path.dirname(relative_path)
 
-    # Delete everything in the `public` directory
+                dest_path = os.path.join(dest_dir_path, relative_dir, os.path.splitext(file)[0] + '.html')
+
+                print(f"Generating page at {dest_path} from {file_path}")
+                
+                generate_page(file_path, template_path, dest_path)
+
+def clean_public_directory(public_dir):
     if os.path.exists(public_dir):
         shutil.rmtree(public_dir)
-        os.makedirs(public_dir)
+    os.makedirs(public_dir, exist_ok=True)
 
-    # Copy all static files from `static` to `public`
-    static_dir = 'static'
+def copy_static_files(static_dir, public_dir):
     if os.path.exists(static_dir):
         shutil.copytree(static_dir, public_dir, dirs_exist_ok=True)
 
-    # Generate a page from `content/index.md` using `template.html` and write it to `public/index.html`
-    content_path = 'content/index.md'
-    template_path = 'template.html'
-    dest_path = os.path.join(public_dir, 'index.html')
+def main():
+    clean_public_directory('public')
+    copy_static_files('static', 'public')
+    generate_pages_recursive('content', 'template.html', 'public')
 
-    generate_page(content_path, template_path, dest_path)
 
 if __name__ == "__main__":
     main()
