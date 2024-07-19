@@ -1,6 +1,6 @@
 import unittest
-from markdown_to_html import markdown_to_html_node
-from htmlnodes import HTMLNode
+from blocktypes import markdown_to_html_node
+from htmlnode import HTMLNode
 
 class TestMarkdownToHTMLNode(unittest.TestCase):
 
@@ -59,4 +59,4 @@ class TestMarkdownToHTMLNode(unittest.TestCase):
         self.assertEqual(html_node, expected)
 
 if __name__ == '__main__':
-    unittest.main()    
+    unittest.main()

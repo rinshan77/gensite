@@ -37,7 +37,8 @@ def create_heading_node(block):
     return heading_node
 
 def create_code_node(block):
-    code_text = block.strip('`')
+    # First remove the triple backticks and then strip the newlines
+    code_text = block.strip('`').strip('\n')
     pre_node = HTMLNode('pre')
     code_node = HTMLNode('code', children=[code_text])
     pre_node.children.append(code_node)
