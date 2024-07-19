@@ -1,4 +1,5 @@
-from textnode import TextNode, split_nodes_delimiter, extract_markdown_images
+import re
+from textnode import TextNode, split_nodes_delimiter, extract_markdown_images, extract_markdown_links
 from htmlnode import HTMLNode, LeafNode, ParentNode
 
 
