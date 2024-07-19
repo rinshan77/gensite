@@ -1,6 +1,12 @@
 import re
 import unittest
-from textnode import TextNode, text_node_to_html_node, extract_markdown_images, extract_markdown_links, text_to_textnodes
+from textnode import (
+    TextNode,
+    text_node_to_html_node,
+    extract_markdown_images,
+    extract_markdown_links,
+    text_to_textnodes,
+)
 from htmlnode import HTMLNode, LeafNode, ParentNode
 
 
@@ -102,34 +108,40 @@ class TestTextNodeToHtmlNode(unittest.TestCase):
             HTMLNode("img", "", props={"src": "image.jpg", "alt": "Image"}),
         )
 
+
 class TestMarkdownExtract(unittest.TestCase):
     def test_extract_markdown_images(self):
-    # Test case 1: Basic functionality
+        # Test case 1: Basic functionality
         text1 = "This is text with a ![rick roll](https://i.imgur.com/aKaOqIh.gif) and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)"
         result1 = extract_markdown_images(text1)
-        expected1 = [("rick roll", "https://i.imgur.com/aKaOqIh.gif"), ("obi wan", "https://i.imgur.com/fJRm4Vk.jpeg")]
+        expected1 = [
+            ("rick roll", "https://i.imgur.com/aKaOqIh.gif"),
+            ("obi wan", "https://i.imgur.com/fJRm4Vk.jpeg"),
+        ]
         assert result1 == expected1, f"Expected {expected1}, got {result1}"
 
-    # Test case 2: No images
+        # Test case 2: No images
         text2 = "This is text with no images."
         result2 = extract_markdown_images(text2)
         expected2 = []
         assert result2 == expected2, f"Expected {expected2}, got {result2}"
 
-    # Test case 3: Edge case with empty alt text
+        # Test case 3: Edge case with empty alt text
         text3 = "Image with empty alt text ![](https://i.imgur.com/empty.gif)"
         result3 = extract_markdown_images(text3)
         expected3 = [("", "https://i.imgur.com/empty.gif")]
         assert result3 == expected3, f"Expected {expected3}, got {result3}"
 
         print("All tests for extract_markdown_images passed!")
-    
 
     def test_extract_markdown_links(self):
         # Test case 1: Basic functionality
         text1 = "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)"
         result1 = extract_markdown_links(text1)
-        expected1 = [("to boot dev", "https://www.boot.dev"), ("to youtube", "https://www.youtube.com/@bootdotdev")]
+        expected1 = [
+            ("to boot dev", "https://www.boot.dev"),
+            ("to youtube", "https://www.youtube.com/@bootdotdev"),
+        ]
         self.assertEqual(result1, expected1, f"Expected {expected1}, got {result1}")
 
         # Test case 2: No links
@@ -137,7 +149,7 @@ class TestMarkdownExtract(unittest.TestCase):
         result2 = extract_markdown_links(text2)
         expected2 = []
         self.assertEqual(result2, expected2, f"Expected {expected2}, got {result2}")
-                # Test case 3: Edge case with empty anchor text and URL
+        # Test case 3: Edge case with empty anchor text and URL
         text3 = "Link with empty anchor text [](<https://empty.link>)"
         result3 = extract_markdown_links(text3)
         expected3 = [("", "https://empty.link")]
@@ -146,7 +158,10 @@ class TestMarkdownExtract(unittest.TestCase):
         # Test case 4: Links with complex URLs
         text4 = "Here are [two](https://with-query.com?query=1) [complex](https://example.com/path/to/resource?param1=val1&param2=val2) links"
         result4 = extract_markdown_links(text4)
-        expected4 = [("two", "https://with-query.com?query=1"), ("complex", "https://example.com/path/to/resource?param1=val1&param2=val2")]
+        expected4 = [
+            ("two", "https://with-query.com?query=1"),
+            ("complex", "https://example.com/path/to/resource?param1=val1&param2=val2"),
+        ]
         self.assertEqual(result4, expected4, f"Expected {expected4}, got {result4}")
 
         # Test case 5: Edge case with broken links
@@ -155,8 +170,8 @@ class TestMarkdownExtract(unittest.TestCase):
         expected5 = [("broken", "")]
         self.assertEqual(result5, expected5, f"Expected {expected5}, got {result5}")
 
-class TestTextToTextNodes(unittest.TestCase):
 
+class TestTextToTextNodes(unittest.TestCase):
     def test_text_to_textnodes(self):
         # Test case with various formatting elements
         raw_text = "This is **text** with an *italic* word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"
@@ -175,6 +190,7 @@ class TestTextToTextNodes(unittest.TestCase):
         ]
         print(f"HERE ARE THE NODES: {nodes}")
         self.assertEqual(nodes, expected_nodes)
+
 
 if __name__ == "__main__":
     unittest.main()
