@@ -1,5 +1,6 @@
 import re
 from htmlnode import HTMLNode, LeafNode, ParentNode
+from splitfuncs import split_nodes_delimiter, split_nodes_image, split_nodes_link
 
 
 class TextNode:
@@ -64,3 +65,17 @@ def extract_markdown_images(text):
     pattern = r"!\[(.*?)\]\((.*?)\)"
     matches = re.findall(pattern, text)
     return matches
+
+
+def text_to_textnodes(text):
+    # Start with the initial TextNode that contains the whole text
+    nodes = [TextNode(text, "text")]
+
+    # Apply each splitting function sequentially
+    nodes = split_nodes_image(nodes)
+    nodes = split_nodes_link(nodes)
+    nodes = split_nodes_delimiter(nodes, "`", "code")
+    nodes = split_nodes_delimiter(nodes, "**", "bold")
+    nodes = split_nodes_delimiter(nodes, "*", "italic")
+    
+    return nodes

@@ -1,6 +1,7 @@
 import re
-from textnode import TextNode, split_nodes_delimiter, extract_markdown_images, extract_markdown_links
+from textnode import TextNode, extract_markdown_images, extract_markdown_links
 from htmlnode import HTMLNode, LeafNode, ParentNode
+from splitfuncs import split_nodes_delimiter, split_nodes_image, split_nodes_link
 
 
 def main():

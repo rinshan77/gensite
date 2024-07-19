@@ -155,5 +155,26 @@ class TestMarkdownExtract(unittest.TestCase):
         expected5 = [("broken", "")]
         self.assertEqual(result5, expected5, f"Expected {expected5}, got {result5}")
 
+class TestTextToTextNodes(unittest.TestCase):
+
+    def test_text_to_textnodes(self):
+        # Test case with various formatting elements
+        raw_text = "This is **text** with an *italic* word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"
+        nodes = text_to_textnodes(raw_text)
+        expected_nodes = [
+            TextNode("This is ", "text"),
+            TextNode("text", "bold"),
+            TextNode(" with an ", "text"),
+            TextNode("italic", "italic"),
+            TextNode(" word and a ", "text"),
+            TextNode("code block", "code"),
+            TextNode(" and an ", "text"),
+            TextNode("obi wan image", "image", "https://i.imgur.com/fJRm4Vk.jpeg"),
+            TextNode(" and a ", "text"),
+            TextNode("link", "link", "https://boot.dev"),
+        ]
+
+        self.assertEqual(nodes, expected_nodes)
+
 if __name__ == "__main__":
     unittest.main()
